@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Director — The AI-powered business OS marketplace for UK SMEs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Sage scale - backgrounds */
+  --sage-25: #FAFBF8;
+  --sage-50: #F4F6F1;
+  --sage-100: #F1F3EF;
+  --sage-200: #E5E8E1;
+  --sage-300: #DDE1D9;
+  --sage-400: #C9CDC3;
+
+  /* Forest scale - dark surfaces + primary text */
+  --forest-900: #1C2422;
+  --forest-800: #263330;
+  --forest-700: #2F3D39;
+  --forest-600: #3B4A46;
+
+  /* Stone scale - secondary text */
+  --stone-500: #5A6660;
+  --stone-400: #8A928C;
+  --stone-300: #B0B5AE;
+  --stone-200: #D5D8D2;
+
+  /* Green - primary accent */
+  --green-900: #1B4A30;
+  --green-700: #2C6E49;
+  --green-600: #368859;
+  --green-500: #4DA574;
+  --green-100: #DDE8DF;
+  --green-50: #EEF3EF;
+
+  /* Gold - highlight accent */
+  --gold-700: #8A6B2D;
+  --gold-500: #C6A15B;
+  --gold-200: #EFE3CA;
+  --gold-100: #F7EFD9;
+
+  /* Red - urgent/negative */
+  --red-900: #7A2929;
+  --red-700: #A33B3B;
+  --red-500: #C25353;
+  --red-100: #EED9D9;
+  --red-50: #F7EAEA;
+
+  /* Blue - informational */
+  --blue-700: #3560A8;
+  --blue-500: #5A86CF;
+  --blue-100: #DCE5F2;
+  --blue-50: #EEF2F9;
+
+  /* Tone accents */
+  --tone-sage: #2C6E49;
+  --tone-olive: #5F7A3A;
+  --tone-gold: #B8933A;
+  --tone-blue: #5A86CF;
+
+  /* Semantic mappings */
+  --bg-app: var(--sage-100);
+  --bg-surface: #FBFBF9;
+  --bg-surface-2: var(--sage-50);
+  --bg-subtle: var(--sage-200);
+  --bg-sidebar: var(--forest-800);
+  --bg-inverse: var(--forest-900);
+
+  --border-subtle: var(--sage-200);
+  --border-default: var(--sage-300);
+  --border-strong: var(--sage-400);
+  --border-focus: var(--green-700);
+
+  --text-primary: var(--forest-900);
+  --text-secondary: var(--stone-500);
+  --text-muted: var(--stone-400);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; }
+
+/* === NAV === */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(251, 251, 249, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: -0.02em;
+}
+.logo-mark {
+  width: 30px; height: 30px;
+  background: var(--forest-900);
+  border-radius: 8px;
+  display: grid; place-items: center;
+  color: var(--green-500);
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 14px;
+  font-style: italic;
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+  margin-left: 16px;
+}
+.nav-links button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  transition: color 0.15s;
+}
+.nav-links button:hover { color: var(--text-primary); }
+.nav-links button.active { color: var(--green-700); }
+.nav-cta {
+  background: var(--green-700);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-cta:hover { background: var(--green-900); transform: translateY(-1px); }
+.menu-toggle { display: none; background: none; border: none; font-size: 20px; color: var(--text-primary); }
+
+/* === PAGES === */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* === HERO (editorial split layout) === */
+.hero {
+  padding: 100px 32px 120px;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--green-700);
+  margin-bottom: 28px;
+}
+.eyebrow::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--green-600);
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(48px, 6vw, 84px);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--text-primary);
+  margin-bottom: 32px;
+}
+.hero h1 em { font-style: italic; color: var(--green-700); font-weight: 500; }
+.hero h1 .highlight {
+  position: relative;
+  display: inline-block;
+  font-style: italic;
+  color: var(--green-700);
+}
+.hero h1 .highlight::after {
+  content: '';
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: 6px;
+  height: 14px;
+  background: var(--green-500);
+  opacity: 0.35;
+  z-index: -1;
+  transform: skewX(-6deg);
+}
+.hero-sub {
+  font-size: 19px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  margin-bottom: 40px;
+  line-height: 1.55;
+}
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 36px;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.hero-visual {
+  position: relative;
+  height: 460px;
+}
+.stat-card {
+  position: absolute;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 30px 60px -30px rgba(28, 36, 34, 0.25);
+}
+.stat-card.c1 {
+  top: 0; right: 0;
+  width: 280px;
+  animation: float 6s ease-in-out infinite;
+}
+.stat-card.c2 {
+  top: 140px; left: -10px;
+  width: 260px;
+  background: var(--green-700);
+  color: #fff;
+  border-color: var(--green-700);
+  animation: float 7s ease-in-out infinite 1s;
+}
+.stat-card.c3 {
+  bottom: 0; right: 30px;
+  width: 290px;
+  background: var(--forest-900);
+  color: var(--sage-50);
+  border-color: var(--forest-900);
+  animation: float 8s ease-in-out infinite 2s;
+}
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+.stat-number {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  line-height: 1;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.stat-card.c2 .stat-number { color: var(--green-500); font-style: italic; }
+.stat-card.c3 .stat-number { color: var(--green-500); }
+.stat-number .unit {
+  font-size: 0.45em;
+  font-style: italic;
+  font-weight: 500;
+  margin-left: 4px;
+}
+.stat-desc {
+  font-size: 13px;
+  line-height: 1.45;
+  opacity: 0.8;
+}
+.btn-primary {
+  background: var(--green-700);
+  color: #fff;
+  border: none;
+  padding: 14px 26px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.01em;
+}
+.btn-primary:hover {
+  background: var(--green-900);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -10px rgba(44, 110, 73, 0.4);
+}
+.btn-primary .arrow { transition: transform 0.2s; }
+.btn-primary:hover .arrow { transform: translateX(3px); }
+.btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  padding: 14px 26px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { background: var(--sage-50); border-color: var(--forest-900); }
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.hero-trust .dot {
+  width: 4px; height: 4px;
+  background: var(--stone-400);
+  border-radius: 50%;
+}
+.hero-trust strong { color: var(--text-primary); font-weight: 600; }
+
+/* Hero preview mock */
+.hero-preview {
+  max-width: 1100px;
+  margin: 60px auto 0;
+  padding: 0 32px;
+  position: relative;
+}
+.preview-shell {
+  background: var(--forest-900);
+  border-radius: 16px 16px 0 0;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.preview-dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+.preview-bar {
+  margin-left: 14px;
+  background: rgba(255,255,255,0.08);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+}
+.preview-body {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  padding: 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  box-shadow: 0 40px 80px -40px rgba(28, 36, 34, 0.25);
+}
+.preview-card {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.4s;
+}
+.preview-card:hover { transform: translateY(-4px); }
+.preview-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.preview-card-icon {
+  width: 34px; height: 34px;
+  background: var(--green-700);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+}
+.preview-card.alt .preview-card-icon { background: var(--gold-500); }
+.preview-card.dark .preview-card-icon { background: var(--forest-900); }
+.preview-card.stone .preview-card-icon { background: var(--stone-500); }
+.preview-pill {
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 100px;
+  background: var(--green-50);
+  color: var(--green-900);
+  font-weight: 600;
+}
+.preview-card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.preview-card-line {
+  height: 6px;
+  background: var(--sage-200);
+  border-radius: 3px;
+  width: 80%;
+}
+.preview-card-line.short { width: 50%; }
+
+/* === CATEGORY STRIP === */
+.cat-section {
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 24px 0;
+  margin-top: 80px;
+}
+.cat-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+.cat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.cat-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.cat-strip::-webkit-scrollbar { display: none; }
+.cat-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  padding: 9px 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.cat-chip:hover { border-color: var(--green-700); color: var(--green-700); }
+.cat-chip.active {
+  background: var(--forest-900);
+  color: var(--sage-50);
+  border-color: var(--forest-900);
+}
+.cat-count {
+  background: rgba(0,0,0,0.06);
+  padding: 1px 7px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.cat-chip.active .cat-count { background: rgba(255,255,255,0.2); color: #fff; }
+
+/* === MARKETPLACE === */
+.marketplace {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 60px 32px 100px;
+}
+.marketplace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.marketplace-title {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.marketplace-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.marketplace-meta {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.marketplace-meta select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.module-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  width: 100%;
+}
+.module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -20px rgba(28, 36, 34, 0.15);
+  border-color: var(--green-700);
+}
+.module-preview {
+  height: 150px;
+  background: var(--forest-800);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.module-preview::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.module-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(77, 165, 116, 0.22) 0%, transparent 55%);
+}
+.module-icon {
+  width: 60px; height: 60px;
+  background: var(--bg-surface);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.4);
+}
+.module-card.variant-2 .module-preview { background: var(--green-900); }
+.module-card.variant-2 .module-preview::after { background: radial-gradient(circle at 30% 40%, rgba(198, 161, 91, 0.18) 0%, transparent 55%); }
+.module-card.variant-3 .module-preview { background: var(--forest-700); }
+.module-card.variant-3 .module-preview::after { background: radial-gradient(circle at 70% 30%, rgba(77, 165, 116, 0.3) 0%, transparent 55%); }
+.module-card.variant-4 .module-preview { background: var(--green-700); }
+.module-card.variant-4 .module-preview::after { background: radial-gradient(circle at 30% 70%, rgba(198, 161, 91, 0.25) 0%, transparent 55%); }
+.module-card.variant-5 .module-preview { background: var(--forest-900); }
+.module-card.variant-5 .module-preview::after { background: radial-gradient(circle at 70% 50%, rgba(90, 134, 207, 0.2) 0%, transparent 55%); }
+.module-card.variant-6 .module-preview { background: var(--forest-600); }
+.module-card.variant-6 .module-preview::after { background: radial-gradient(circle at 40% 50%, rgba(198, 161, 91, 0.2) 0%, transparent 55%); }
+
+.module-body {
+  padding: 18px 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+}
+.module-cat {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: var(--green-700);
+  margin-bottom: 8px;
+}
+.module-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+.module-card .module-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+.module-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+.module-price {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.module-price span {
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 13px;
+}
+.module-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 100px;
+  background: var(--green-50);
+  color: var(--green-900);
+  font-weight: 600;
+  border: 1px solid var(--green-100);
+}
+.module-badge.gold {
+  background: var(--gold-100);
+  color: var(--gold-700);
+  border-color: var(--gold-200);
+}
+.module-badge.blue {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-color: var(--blue-100);
+}
+
+/* === FEATURE BENTO === */
+.features {
+  background: var(--bg-surface);
+  padding: 100px 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+.features-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.section-head {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.section-head .eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green-700);
+  margin-bottom: 14px;
+  letter-spacing: 0.01em;
+}
+.section-head h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(34px, 4.5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.section-head h2 em { font-style: italic; color: var(--green-700); font-weight: 500; }
+.section-head p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+  grid-template-areas:
+    "a a b"
+    "c d d";
+}
+.bento-card {
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.bento-card.b1 { grid-area: a; background: var(--forest-900); color: var(--sage-50); border-color: var(--forest-900); }
+.bento-card.b2 { grid-area: b; }
+.bento-card.b3 { grid-area: c; }
+.bento-card.b4 { grid-area: d; background: var(--green-700); color: #fff; border-color: var(--green-700); }
+
+.bento-card h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.bento-card p {
+  font-size: 15px;
+  line-height: 1.55;
+  opacity: 0.85;
+  max-width: 420px;
+}
+.bento-card.b1 h4 em { color: var(--green-500); font-style: italic; }
+.bento-card.b4 h4 em { color: var(--gold-200); font-style: italic; }
+.bento-card.b2 h4 em, .bento-card.b3 h4 em { color: var(--green-700); font-style: italic; }
+
+.bento-visual {
+  margin-top: 24px;
+  flex: 1;
+  min-height: 110px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.bento-card.b2 .bento-visual, .bento-card.b3 .bento-visual {
+  background: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+.mock-bars {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 70px;
+}
+.mock-bar { flex: 1; background: var(--green-500); border-radius: 3px 3px 0 0; opacity: 0.8; }
+.bento-card.b4 .mock-bar { background: rgba(255,255,255,0.6); }
+
+.mock-flow {
+  position: absolute;
+  inset: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mock-node {
+  width: 42px; height: 42px;
+  background: var(--green-700);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+.mock-node.alt { background: var(--gold-500); }
+.mock-line {
+  flex: 1;
+  height: 2px;
+  background: var(--border-default);
+  position: relative;
+  margin: 0 4px;
+}
+.mock-line::after {
+  content: '';
+  position: absolute;
+  right: 0; top: -3px;
+  border-left: 6px solid var(--border-default);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.mock-terminal {
+  position: absolute;
+  inset: 20px;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.mock-terminal .tok-green { color: var(--green-700); font-weight: 600; }
+.mock-terminal .tok-gold { color: var(--gold-700); font-weight: 600; }
+.mock-terminal .tok-dim { opacity: 0.5; }
+
+/* === HOW IT WORKS === */
+.how {
+  padding: 100px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+.how-card {
+  padding: 32px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  background: var(--bg-surface);
+  transition: border-color 0.2s;
+}
+.how-card:hover { border-color: var(--green-700); }
+.how-num {
+  display: inline-grid;
+  place-items: center;
+  width: 38px; height: 38px;
+  background: var(--green-50);
+  color: var(--green-900);
+  border-radius: 10px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 20px;
+  border: 1px solid var(--green-100);
+}
+.how-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.how-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* === PRICING === */
+.pricing {
+  background: var(--bg-surface);
+  padding: 100px 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+.pricing-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.price-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.price-card.featured {
+  background: var(--forest-900);
+  color: var(--sage-50);
+  border-color: var(--forest-900);
+  transform: scale(1.02);
+  box-shadow: 0 30px 60px -30px rgba(28, 36, 34, 0.5);
+}
+.price-badge {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: var(--green-500);
+  color: var(--green-900);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.price-tier {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.price-tagline {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+.price-card.featured .price-tagline { color: rgba(244, 246, 241, 0.6); }
+.price-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.price-num {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.price-unit {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.price-card.featured .price-unit { color: rgba(244, 246, 241, 0.6); }
+.price-sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+.price-card.featured .price-sub { color: rgba(244, 246, 241, 0.6); }
+.price-features {
+  list-style: none;
+  margin-bottom: 28px;
+  flex: 1;
+}
+.price-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.price-card.featured .price-features li { color: rgba(244, 246, 241, 0.85); }
+.price-features li::before {
+  content: '';
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--green-50);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232C6E49' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+  background-size: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.price-card.featured .price-features li::before {
+  background-color: var(--green-500);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231B4A30' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'/></svg>");
+}
+.price-cta {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid var(--green-700);
+  background: var(--green-700);
+  color: #fff;
+  transition: all 0.15s;
+}
+.price-cta:hover { background: var(--green-900); border-color: var(--green-900); }
+.price-card.featured .price-cta {
+  background: var(--green-500);
+  color: var(--green-900);
+  border-color: var(--green-500);
+}
+.price-card.featured .price-cta:hover { background: #fff; border-color: #fff; }
+
+.price-footnote {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* === FAQ === */
+.faq {
+  padding: 100px 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.faq-list { margin-top: 50px; }
+.faq-item {
+  border-top: 1px solid var(--border-subtle);
+  padding: 22px 0;
+  cursor: pointer;
+}
+.faq-item:last-child { border-bottom: 1px solid var(--border-subtle); }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.faq-qtext {
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.faq-toggle {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-default);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+  color: var(--green-700);
+  font-size: 14px;
+}
+.faq-item.open .faq-toggle {
+  background: var(--green-700);
+  color: #fff;
+  border-color: var(--green-700);
+  transform: rotate(45deg);
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding-top 0.3s ease;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.faq-item.open .faq-a { max-height: 400px; padding-top: 14px; }
+
+/* === FINAL CTA === */
+.final {
+  background: var(--forest-900);
+  color: #fff;
+  padding: 120px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.final::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(77, 165, 116, 0.18) 0%, transparent 65%);
+}
+.final-inner { position: relative; max-width: 700px; margin: 0 auto; }
+.final h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+}
+.final h2 em { color: var(--green-500); font-style: italic; font-weight: 500; }
+.final p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 32px;
+}
+.final .btn-primary {
+  background: var(--green-500);
+  color: var(--green-900);
+  font-weight: 700;
+}
+.final .btn-primary:hover { background: #fff; color: var(--green-900); transform: translateY(-1px); }
+
+/* === ABOUT === */
+.about-hero {
+  padding: 80px 32px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.about-hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  margin-bottom: 20px;
+}
+.about-hero h1 em { font-style: italic; color: var(--green-700); font-weight: 500; }
+.about-hero p {
+  font-size: 18px;
+  color: var(--text-secondary);
+}
+.story {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 32px 80px;
+}
+.story p {
+  font-size: 17px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.story .lead { font-size: 18px; font-weight: 500; }
+.story-pull {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--green-700);
+  padding: 28px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  margin: 32px 0;
+  text-align: center;
+}
+.cred-band {
+  background: var(--bg-surface);
+  padding: 60px 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+.cred-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.cred {
+  padding: 28px;
+  background: var(--bg-surface-2);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+}
+.cred-num {
+  font-family: 'Fraunces', serif;
+  font-size: 40px;
+  font-weight: 400;
+  color: var(--green-700);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.cred-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* === OPTIMISE === */
+.optimise-hero {
+  padding: 80px 32px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.optimise-hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 24px;
+}
+.optimise-hero h1 em { color: var(--green-700); font-style: italic; font-weight: 500; }
+.optimise-hero p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+.pillars {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 32px 100px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.pillar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 28px;
+  transition: all 0.2s;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+.pillar:hover {
+  border-color: var(--green-700);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -15px rgba(44, 110, 73, 0.2);
+}
+.pillar-letter {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 400;
+  line-height: 0.9;
+  color: var(--green-600);
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+}
+.pillar:nth-child(even) .pillar-letter { color: var(--gold-500); }
+.pillar-body h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.pillar-body p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* === MODAL === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 36, 34, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 200;
+  padding: 60px 20px;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--bg-surface);
+  width: 100%;
+  max-width: 860px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  font-size: 18px;
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  transition: background 0.15s;
+}
+.modal-close:hover { background: rgba(255,255,255,0.35); }
+.modal-hero {
+  height: 200px;
+  background: var(--forest-900);
+  padding: 40px;
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.modal-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.modal-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(77, 165, 116, 0.28) 0%, transparent 55%);
+}
+.modal-hero-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; }
+.modal-icon {
+  width: 72px; height: 72px;
+  background: var(--bg-surface);
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 36px;
+  flex-shrink: 0;
+}
+.modal-hero-text h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+.modal-hero-text .modal-cat {
+  font-size: 12px;
+  color: var(--green-500);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.modal-body {
+  padding: 36px 40px 40px;
+}
+.modal-tagline {
+  font-size: 17px;
+  color: var(--text-primary);
+  line-height: 1.55;
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+.modal-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--green-700);
+  margin-bottom: 14px;
+  margin-top: 28px;
+}
+.modal-section-title:first-of-type { margin-top: 0; }
+.modal-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 20px;
+}
+.modal-list li {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+.modal-list li::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--green-600);
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+.modal-footer {
+  padding: 20px 40px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.modal-price {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.modal-price-num {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+.modal-price-unit {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+.modal-actions { display: flex; gap: 10px; }
+
+/* === FOOTER === */
+footer {
+  background: var(--forest-900);
+  color: var(--sage-50);
+  padding: 60px 32px 32px;
+}
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(244, 246, 241, 0.15);
+}
+.footer-brand .logo { color: var(--sage-50); margin-bottom: 16px; }
+.footer-brand p {
+  color: rgba(244, 246, 241, 0.6);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 320px;
+}
+.footer-col h5 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--green-500);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.footer-col button, .footer-col a {
+  background: none;
+  border: none;
+  color: rgba(244, 246, 241, 0.7);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-col button:hover, .footer-col a:hover { color: var(--green-500); }
+.footer-bottom {
+  max-width: 1280px;
+  margin: 24px auto 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: rgba(244, 246, 241, 0.4);
+  font-size: 13px;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 60px; }
+  .hero-visual { height: 440px; max-width: 420px; margin: 0 auto; }
+  .bento { grid-template-columns: 1fr 1fr; grid-template-areas: "a a" "b c" "d d"; }
+  .how-grid, .price-grid { grid-template-columns: 1fr; }
+  .price-card.featured { transform: none; }
+  .pillars { grid-template-columns: 1fr; }
+  .cred-inner { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .nav-links { display: none; }
+  .menu-toggle { display: block; }
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 0;
+    box-shadow: 0 20px 40px -15px rgba(0,0,0,0.15);
+  }
+  .modal-list { grid-template-columns: 1fr; }
+  .modal-body, .modal-hero, .modal-footer { padding-left: 24px; padding-right: 24px; }
+  .modal-hero-text h3 { font-size: 26px; }
+  .preview-body { grid-template-columns: repeat(2, 1fr); padding: 20px; }
+}
+@media (max-width: 600px) {
+  .hero, .marketplace, .how, .faq { padding-left: 20px; padding-right: 20px; }
+  .features, .pricing, .final, .cred-band { padding-left: 20px; padding-right: 20px; }
+  .bento { grid-template-columns: 1fr; grid-template-areas: "a" "b" "c" "d"; }
+  .cred-inner, .footer-inner { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary, .btn-secondary { justify-content: center; }
+  .pillar { flex-direction: column; gap: 12px; }
+  .preview-body { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="showPage('home')">
+      <div class="logo-mark">OD</div>
+      Operations Director
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><button onclick="showPage('home')" data-page="home" class="active">Marketplace</button></li>
+      <li><button onclick="showPage('optimise')" data-page="optimise">OPTIMISE</button></li>
+      <li><button onclick="showPage('about')" data-page="about">About</button></li>
+      <li><button onclick="showPage('faq')" data-page="faq">FAQ</button></li>
+    </ul>
+    <button class="nav-cta" onclick="scrollToId('pricing')">Get the OS →</button>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- HOMEPAGE / MARKETPLACE -->
+<div class="page active" id="page-home">
+
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Business OS for UK SMEs</div>
+        <h1>Your business runs on <span class="highlight">you</span>.<br>That's the problem.</h1>
+        <p class="hero-sub">Operations Director builds AI-powered operating systems that replace the spreadsheets, sticky notes and mental load keeping UK SMEs stuck. Install the systems your business should already have — buy, connect, run.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="scrollToId('marketplace')">Browse modules <span class="arrow">→</span></button>
+          <button class="btn-secondary" onclick="scrollToId('pricing')">See pricing</button>
+        </div>
+        <div class="hero-trust">
+          <span><strong>10 modules</strong> available</span>
+          <span class="dot"></span>
+          <span>Battle-tested inside a real SME</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="stat-card c1">
+          <div class="stat-label">Cash flow issues</div>
+          <div class="stat-number">82%</div>
+          <div class="stat-desc">of UK SMEs fail from cash flow problems they saw coming.</div>
+        </div>
+        <div class="stat-card c2">
+          <div class="stat-label">Running blind</div>
+          <div class="stat-number">83%</div>
+          <div class="stat-desc">are operating without documented systems.</div>
+        </div>
+        <div class="stat-card c3">
+          <div class="stat-label">Weekly time lost</div>
+          <div class="stat-number">13.7<span class="unit">hrs</span></div>
+          <div class="stat-desc">burned every week tool-hopping. 712 hours a year.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY -->
+  <section class="cat-section">
+    <div class="cat-inner">
+      <div class="cat-label">Filter by category</div>
+      <div class="cat-strip">
+        <button class="cat-chip active" data-cat="all">All modules <span class="cat-count">10</span></button>
+        <button class="cat-chip" data-cat="leadership">Leadership <span class="cat-count">2</span></button>
+        <button class="cat-chip" data-cat="finance">Finance <span class="cat-count">3</span></button>
+        <button class="cat-chip" data-cat="operations">Operations <span class="cat-count">2</span></button>
+        <button class="cat-chip" data-cat="comms">Communications <span class="cat-count">1</span></button>
+        <button class="cat-chip" data-cat="compliance">Compliance <span class="cat-count">1</span></button>
+        <button class="cat-chip" data-cat="launch">Launch <span class="cat-count">1</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKETPLACE -->
+  <section class="marketplace" id="marketplace">
+    <div class="marketplace-header">
+      <div>
+        <div class="marketplace-title" id="marketplaceTitle">All modules</div>
+        <div class="marketplace-sub">Pick a module or bundle into a full OS. Click any card to see what's inside.</div>
+      </div>
+      <div class="marketplace-meta">
+        <span id="moduleCount">10 modules</span>
+        <select>
+          <option>Popular first</option>
+          <option>Newest</option>
+          <option>A–Z</option>
+        </select>
+      </div>
+    </div>
+    <div class="module-grid" id="moduleGrid"></div>
+  </section>
+
+  <!-- BENTO -->
+  <section class="features">
+    <div class="features-inner">
+      <div class="section-head">
+        <div class="eyebrow">Why Operations Director</div>
+        <h2>The tools you've bought <em>haven't fixed the problem.</em></h2>
+        <p>Because software alone isn't a system. Every module ships as a working OS — data model, automations, SOPs, dashboards. Fully wired. Working from day one.</p>
+      </div>
+      <div class="bento">
+        <div class="bento-card b1">
+          <h4>Every module is a <em>working system</em>, not a template.</h4>
+          <p>Airtable as the source of truth. Make.com for automation. Claude as the AI layer. Slack as your command centre. All wired up, all documented, all yours.</p>
+          <div class="bento-visual">
+            <div class="mock-bars">
+              <div class="mock-bar" style="height: 40%"></div>
+              <div class="mock-bar" style="height: 65%"></div>
+              <div class="mock-bar" style="height: 55%"></div>
+              <div class="mock-bar" style="height: 80%"></div>
+              <div class="mock-bar" style="height: 70%"></div>
+              <div class="mock-bar" style="height: 90%"></div>
+              <div class="mock-bar" style="height: 75%"></div>
+              <div class="mock-bar" style="height: 95%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bento-card b2">
+          <h4>AI-native by <em>default</em>.</h4>
+          <p>Claude handles triage, drafting, reconciliation and routing in the background — your team doesn't have to.</p>
+          <div class="bento-visual">
+            <div class="mock-flow">
+              <div class="mock-node">🤖</div>
+              <div class="mock-line"></div>
+              <div class="mock-node alt">⚙️</div>
+            </div>
+          </div>
+        </div>
+        <div class="bento-card b3">
+          <h4>Install <em>in days,</em> not months.</h4>
+          <p>Skip the consultancy timeline. Each module is pre-built, pre-tested and ready to connect to your existing stack.</p>
+          <div class="bento-visual">
+            <div class="mock-terminal">
+              <div><span class="tok-dim">$</span> <span class="tok-green">install</span> finance-os</div>
+              <div><span class="tok-green">✓</span> Airtable base created</div>
+              <div><span class="tok-green">✓</span> Make.com scenarios live</div>
+              <div><span class="tok-green">✓</span> Slack channels set up</div>
+              <div><span class="tok-green">✓</span> Dashboards populated</div>
+              <div><span class="tok-dim">ready in 47 minutes</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bento-card b4">
+          <h4>You own it. <em>No lock-in.</em></h4>
+          <p>Every module lives inside your Airtable, your Make.com, your Slack. Cancel any time and the operating system keeps running — the updates stop, the infrastructure stays.</p>
+          <div class="bento-visual">
+            <div class="mock-bars">
+              <div class="mock-bar" style="height: 60%"></div>
+              <div class="mock-bar" style="height: 45%"></div>
+              <div class="mock-bar" style="height: 75%"></div>
+              <div class="mock-bar" style="height: 55%"></div>
+              <div class="mock-bar" style="height: 85%"></div>
+              <div class="mock-bar" style="height: 70%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>From purchase to installed in <em>under an hour.</em></h2>
+      <p>Three steps. No sales call. No discovery process. Buy a module, connect your stack, run the business.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">1</div>
+        <h3>Pick a module</h3>
+        <p>Choose the operating system you need most — Finance, HR, Operations, whatever's leaking time and money today.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">2</div>
+        <h3>Connect your stack</h3>
+        <p>Plug in your Airtable, Make.com, Slack and Gmail. The installer wires everything up automatically.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">3</div>
+        <h3>Run the business</h3>
+        <p>Your team logs in. Dashboards populate. Automations fire. SOPs trigger. The business runs without you watching it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-inner">
+      <div class="section-head">
+        <div class="eyebrow">Pricing</div>
+        <h2>One operating system. <em>Three tiers.</em></h2>
+        <p>Monthly billing. Cancel anytime. Every module you install stays inside your own stack.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="price-tier">Solo</div>
+          <div class="price-tagline">For founders running alone</div>
+          <div class="price-amount">
+            <div class="price-num">£49</div>
+            <div class="price-unit">/month</div>
+          </div>
+          <div class="price-sub">Billed monthly · Cancel anytime</div>
+          <ul class="price-features">
+            <li>Any 2 modules of your choice</li>
+            <li>Up to 3 users</li>
+            <li>Airtable + Make.com installation</li>
+            <li>Email support, 48-hour response</li>
+            <li>Monthly module updates</li>
+          </ul>
+          <button class="price-cta">Get Solo tier →</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">Most popular</div>
+          <div class="price-tier">Team</div>
+          <div class="price-tagline">For 5–20 person businesses</div>
+          <div class="price-amount">
+            <div class="price-num">£149</div>
+            <div class="price-unit">/month</div>
+          </div>
+          <div class="price-sub">Billed monthly · Cancel anytime</div>
+          <ul class="price-features">
+            <li>Any 5 modules of your choice</li>
+            <li>Up to 20 users</li>
+            <li>Full Airtable + Make.com + Slack install</li>
+            <li>Priority support, same-day response</li>
+            <li>Monthly module updates</li>
+            <li>Quarterly strategy call</li>
+          </ul>
+          <button class="price-cta">Get Team tier →</button>
+        </div>
+        <div class="price-card">
+          <div class="price-tier">Full OS</div>
+          <div class="price-tagline">For serious operators, 20–50 team</div>
+          <div class="price-amount">
+            <div class="price-num">£299</div>
+            <div class="price-unit">/month</div>
+          </div>
+          <div class="price-sub">Billed monthly · Cancel anytime</div>
+          <ul class="price-features">
+            <li>All 10 modules included</li>
+            <li>Unlimited users</li>
+            <li>Full stack install + custom integrations</li>
+            <li>Dedicated onboarding specialist</li>
+            <li>Monthly module updates + early access</li>
+            <li>Monthly 1:1 strategy calls</li>
+          </ul>
+          <button class="price-cta">Get Full OS →</button>
+        </div>
+      </div>
+      <p class="price-footnote">VAT applied at checkout. Monthly billing only — no annual lock-ins, no cancellation fees.</p>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final">
+    <div class="final-inner">
+      <h2>Stop running the business <em>in your head.</em></h2>
+      <p>Buy a module today. Install it this week. Watch the business run without you next month.</p>
+      <button class="btn-primary" onclick="scrollToId('pricing')">Get the OS <span class="arrow">→</span></button>
+    </div>
+  </section>
+</div>
+
+<!-- ABOUT PAGE -->
+<div class="page" id="page-about">
+  <section class="about-hero">
+    <h1>I built Operations Director <em>because I lived the problem.</em></h1>
+    <p>From founder-dependent to founder-optional, in one infrastructure rebuild.</p>
+  </section>
+  <article class="story">
+    <p class="lead">I run a property portfolio across Cambridge, Haverhill, Burnley, Manchester and Hamilton. I founded Runpreneur, a children's charity mission funded by a daily running streak and two Guinness World Records. And for years, I ran everything out of my head, a phone, and twenty-three browser tabs.</p>
+    <p>It worked until it didn't.</p>
+    <p>The business grew. The admin grew faster. I was making decisions at 11pm that should have been made by systems at 9am. The team was capable but blocked — every question routed back to me. I was the bottleneck dressed up as the boss.</p>
+    <p>So I rebuilt the entire operation from the ground up. Airtable as the single source of truth. Make.com for automation. Claude as the AI layer. Slack as the command centre. SOPs for every recurring task. Dashboards for every KPI that mattered.</p>
+    <div class="story-pull">"The portfolio runs without me watching it. Cash flow is visible 30 days out, not 30 days late."</div>
+    <p>And I get to run — every day, without fail — because the business doesn't need me to hold it up anymore.</p>
+    <p>Operations Director is that same infrastructure, packaged as modules any UK SME can install. Not templates. Not courses. Working operating systems built from a business that actually uses them every day.</p>
+    <p class="lead">If you're the bottleneck in your own business, I've been there. I know the way out.</p>
+  </article>
+  <section class="cred-band">
+    <div class="cred-inner">
+      <div class="cred">
+        <div class="cred-num">2×</div>
+        <div class="cred-label">Guinness World Records in endurance running</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">1,600+</div>
+        <div class="cred-label">Consecutive days of a running streak</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">£2m</div>
+        <div class="cred-label">Fundraising mission for children's charities</div>
+      </div>
+      <div class="cred">
+        <div class="cred-num">5</div>
+        <div class="cred-label">UK cities hosting the property portfolio</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- OPTIMISE PAGE -->
+<div class="page" id="page-optimise">
+  <section class="optimise-hero">
+    <div style="display:inline-block; font-size:13px; font-weight:600; color:var(--green-700); margin-bottom:16px;">The framework</div>
+    <h1><em>OPTIMISE.</em><br>Eight pillars. One OS.</h1>
+    <p>Every Operations Director module is built on the same framework — the sequence we've refined across dozens of SME installations. Order matters, because fixing the wrong thing first costs you twice.</p>
+  </section>
+  <div class="pillars">
+    <div class="pillar"><div class="pillar-letter">O</div><div class="pillar-body"><h3>Organise</h3><p>Map the business as it is. Every process, tool, bottleneck and owner. You can't systemise what you haven't seen clearly.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">P</div><div class="pillar-body"><h3>Prioritise</h3><p>Rank every leak by cost and effort. Fix the 20% of problems causing 80% of the damage first.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">T</div><div class="pillar-body"><h3>Templatise</h3><p>Turn every recurring decision into a documented SOP. If it happens more than twice, it becomes a template.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">I</div><div class="pillar-body"><h3>Integrate</h3><p>Connect the stack. Airtable, Make.com, Slack, Gmail, Claude. One flow of data, not five.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">M</div><div class="pillar-body"><h3>Measure</h3><p>Build dashboards that matter. Cash, pipeline, team capacity, compliance. Real numbers, updated live.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">I</div><div class="pillar-body"><h3>Improve</h3><p>Weekly check-ins against objectives. What moved, what didn't, what needs fixing this week.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">S</div><div class="pillar-body"><h3>Systemise</h3><p>Remove the founder from the workflow wherever possible. Automation first, delegation second, founder decision last.</p></div></div>
+    <div class="pillar"><div class="pillar-letter">E</div><div class="pillar-body"><h3>Elevate</h3><p>The founder shifts from operator to owner. Strategy, growth and the next bet — not the day-to-day.</p></div></div>
+  </div>
+</div>
+
+<!-- FAQ PAGE -->
+<div class="page" id="page-faq">
+  <section class="faq">
+    <div class="section-head" style="text-align:left;">
+      <div class="eyebrow">Questions</div>
+      <h2 style="margin-left:0; margin-right:0;">Straight answers, <em>no fluff.</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">What am I actually buying?</div><div class="faq-toggle">+</div></div><div class="faq-a">A subscription to a set of pre-built operating system modules. Each module is a working Airtable database, Make.com automations, AI workflows via Claude, Slack integrations, dashboards and SOPs — all pre-wired. You pay monthly for access, updates and support.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Do I need Airtable, Make.com or Slack already?</div><div class="faq-toggle">+</div></div><div class="faq-a">Yes — modules install into your own Airtable and Make.com accounts. If you don't have them, we'll walk you through setup. You'll need paid accounts on those platforms (their pricing is separate).</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">What happens if I cancel my subscription?</div><div class="faq-toggle">+</div></div><div class="faq-a">You keep everything installed. Every module lives inside your own Airtable and Make.com, not ours. When you cancel, module updates stop and support ends — but the operating system keeps running. No data hostage-taking.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Is my data safe?</div><div class="faq-toggle">+</div></div><div class="faq-a">Your data never touches our servers. It lives in your Airtable, your Make.com, your Slack. We build on platforms with enterprise-grade security. NDAs signed as standard.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">How is this different from Notion or Airtable templates?</div><div class="faq-toggle">+</div></div><div class="faq-a">Templates give you a blank database and a manual. Operations Director ships full working systems — data model, automations, AI layer, SOPs and dashboards — all wired up. You don't configure. You use.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Can I upgrade or downgrade tiers?</div><div class="faq-toggle">+</div></div><div class="faq-a">Anytime, both directions. Upgrades take effect immediately. Downgrades take effect at the next billing cycle. Data and modules stay intact either way.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">What size business is this built for?</div><div class="faq-toggle">+</div></div><div class="faq-a">Founder-led SMEs with 1–50 employees. Solo founders pick the Solo tier. Growing teams pick Team. 20+ person operations with complex needs pick Full OS. Over 50 employees, we're probably not the right fit.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Do I need technical skills?</div><div class="faq-toggle">+</div></div><div class="faq-a">No. Everything is built for non-technical operators. Your team uses Slack, fills Airtable forms, reads dashboards. The technical layer — Make.com scenarios, API integrations, AI prompts — runs in the background and is maintained by documented SOPs.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">What if a module doesn't fit my business?</div><div class="faq-toggle">+</div></div><div class="faq-a">Every module covers 80% of the common case. For edge cases, modules are fully modifiable — by you, a freelancer, or us on retainer. You're never stuck with a system that doesn't fit.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Do you offer refunds?</div><div class="faq-toggle">+</div></div><div class="faq-a">Monthly billing means you can cancel anytime — so refunds rarely come up. If a module fundamentally doesn't work as described, we refund the current month. No long contracts, no exit fees.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Can you integrate with tools I already use?</div><div class="faq-toggle">+</div></div><div class="faq-a">Usually, yes. We integrate with Gmail, Google Workspace, GoHighLevel, Xero, QuickBooks, Stripe, HubSpot, Pipedrive and dozens of others via Make.com. If a tool has an API, we can connect it.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q"><div class="faq-qtext">Why should I trust Operations Director?</div><div class="faq-toggle">+</div></div><div class="faq-a">Because every module ships from a real business running it daily — a multi-city property portfolio, a consultancy, and a charity brand. We don't sell theory. We sell what we use.</div></div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalBg(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-hero">
+      <div class="modal-hero-content">
+        <div class="modal-icon" id="modalIcon">📊</div>
+        <div class="modal-hero-text">
+          <div class="modal-cat" id="modalCat">Leadership</div>
+          <h3 id="modalTitle">Leadership Dashboard OS</h3>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <p class="modal-tagline" id="modalTagline"></p>
+      <div class="modal-section-title">What's inside</div>
+      <ul class="modal-list" id="modalFeatures"></ul>
+      <div class="modal-section-title">Works with</div>
+      <ul class="modal-list" id="modalIntegrations"></ul>
+    </div>
+    <div class="modal-footer">
+      <div class="modal-price">
+        <div class="modal-price-num" id="modalPrice">£49</div>
+        <div class="modal-price-unit">/month · included in Solo tier</div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal()">Close</button>
+        <button class="btn-primary" onclick="closeModal(); scrollToId('pricing');">Install module <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">
+        <div class="logo-mark">OD</div>
+        Operations Director
+      </div>
+      <p>AI-powered business operating systems for UK SMEs. Install the systems your business should already have — without the consultancy bill.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><button onclick="showPage('home')">Marketplace</button></li>
+        <li><button onclick="showPage('home'); scrollToId('pricing');">Pricing</button></li>
+        <li><button onclick="showPage('optimise')">OPTIMISE Framework</button></li>
+        <li><button onclick="showPage('faq')">FAQ</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Modules</h5>
+      <ul>
+        <li><button onclick="openModule('leadership')">📊 Leadership OS</button></li>
+        <li><button onclick="openModule('pl')">💰 Profit & Loss OS</button></li>
+        <li><button onclick="openModule('objectives')">🎯 Objectives OS</button></li>
+        <li><button onclick="openModule('compliance')">✅ Compliance OS</button></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><button onclick="showPage('about')">About</button></li>
+        <li><a href="mailto:hello@operationsdirector.co.uk">hello@operationsdirector.co.uk</a></li>
+        <li><a href="#">Cambridge, UK</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 Operations Director. All rights reserved.</div>
+    <div>Built by founders, for founders.</div>
+  </div>
+</footer>
+
+<script>
+const modules = [
+  {
+    id: 'leadership', category: 'leadership', categoryLabel: 'Leadership', icon: '📊',
+    title: 'Leadership Dashboard OS',
+    desc: 'Live financial + operational metrics on a single dashboard.',
+    tagline: 'The command centre view. Live cash flow forecast, portfolio metrics, AI commentary and balance calculator — all refreshing every 15 minutes.',
+    features: ['31-day cash flow forecast', 'Balance calculator', 'AI analysis + commentary', 'Portfolio overview', 'Tenancy metrics', 'Financial KPIs'],
+    integrations: ['Airtable', 'Fintable bank sync', 'Claude AI', 'Slack'],
+    price: '£49', badge: 'Popular', variant: ''
+  },
+  {
+    id: 'objectives', category: 'leadership', categoryLabel: 'Leadership', icon: '🎯',
+    title: 'Objective & Strategy OS',
+    desc: 'Quarterly objectives, KPIs and team accountability.',
+    tagline: 'Turn strategy into weekly execution. Set objectives, cascade to tasks, track KPIs, and run check-ins that move the needle.',
+    features: ['Quarterly objective tracker', 'KPI dashboards', 'Weekly check-in automation', 'Goal → task cascade', '1:1 notes', 'Performance reviews'],
+    integrations: ['Airtable', 'Slack', 'Google Calendar'],
+    price: '£49', badge: 'New', variant: 'variant-3'
+  },
+  {
+    id: 'pl', category: 'finance', categoryLabel: 'Finance', icon: '💰',
+    title: 'Profit & Loss OS',
+    desc: 'Real-time P&L with auto-categorised transactions.',
+    tagline: 'Live profit and loss statement, updated with every transaction. Know your position daily, not quarterly.',
+    features: ['Real-time P&L', 'Auto-categorised transactions', 'Gross margin tracking', 'Business-level breakdown', 'Monthly comparisons', 'Export to Xero / QBO'],
+    integrations: ['Xero', 'QuickBooks', 'Stripe', 'Fintable'],
+    price: '£49', badge: 'Gold', variant: 'variant-4'
+  },
+  {
+    id: 'cashflow', category: 'finance', categoryLabel: 'Finance', icon: '🚨',
+    title: 'Cash Flow Voids OS',
+    desc: 'Auto-detected void tenancies and overdue rent alerts.',
+    tagline: 'Never miss a rent void. Auto-detects overdue payments with 2-day tolerance and triggers chase actions by contact preference.',
+    features: ['Void tenancy detection', 'Overdue rent tracking', 'Automated chase sequences', 'Contact preference routing', 'Days-overdue counter', 'Resolution tracking'],
+    integrations: ['Airtable', 'Fintable', 'Gmail', 'Slack'],
+    price: '£49', badge: '', variant: 'variant-2'
+  },
+  {
+    id: 'invoices', category: 'finance', categoryLabel: 'Finance', icon: '🧾',
+    title: 'Invoices OS',
+    desc: 'Gmail-integrated invoice-to-pay workflow.',
+    tagline: 'Every invoice labelled "to pay" in Gmail, pulled into one sortable, filterable workflow. Approve, pay, archive.',
+    features: ['Gmail label sync', 'Sort by date/amount/payee', 'Batch approval', 'Payment tracking', 'Historical search', 'Vendor management'],
+    integrations: ['Gmail', 'Airtable', 'Xero', 'Stripe'],
+    price: '£49', badge: '', variant: ''
+  },
+  {
+    id: 'tasks', category: 'operations', categoryLabel: 'Operations', icon: '✅',
+    title: 'Task & Project Management OS',
+    desc: 'Task routing, SOPs and team execution on autopilot.',
+    tagline: 'The operational backbone. Every recurring task documented, assigned, and tracked — without the founder touching it.',
+    features: ['SOP library', 'Task routing via Slack', 'Recurring scheduler', 'Team workload view', 'Approval workflows', 'Status dashboards'],
+    integrations: ['Airtable', 'Slack', 'Make.com', 'Google Workspace'],
+    price: '£49', badge: 'Foundational', variant: 'variant-5'
+  },
+  {
+    id: 'contractor', category: 'operations', categoryLabel: 'Operations', icon: '🔧',
+    title: 'Contractor Job List OS',
+    desc: 'Contractor briefs, job tracking and completion sign-off.',
+    tagline: 'Every contractor job briefed, tracked, and signed off. From initial request to completed invoice.',
+    features: ['Job creation workflow', 'Contractor assignment', 'Photo + video briefs', 'Progress tracking', 'Completion sign-off', 'Invoice matching'],
+    integrations: ['Airtable', 'Slack', 'WhatsApp', 'Gmail'],
+    price: '£49', badge: '', variant: 'variant-6'
+  },
+  {
+    id: 'comms', category: 'comms', categoryLabel: 'Communications', icon: '📨',
+    title: 'Inbound Comms OS',
+    desc: 'AI-triaged email, call and message handling.',
+    tagline: 'Turn inbound chaos into a clean workflow. Claude triages, classifies and routes every message to the right person or process.',
+    features: ['AI email triage', 'Call logging', 'Message routing', 'Response tracking', 'SLA monitoring', 'Team inbox views'],
+    integrations: ['Gmail', 'GoHighLevel', 'Slack', 'WhatsApp Business'],
+    price: '£49', badge: '', variant: 'variant-3'
+  },
+  {
+    id: 'compliance', category: 'compliance', categoryLabel: 'Compliance', icon: '✅',
+    title: 'Property Compliance OS',
+    desc: 'Certificates, renewals and regulatory deadlines tracked.',
+    tagline: 'Never miss a renewal. Every EICR, gas safety, insurance and licence tracked with alerts at 30, 14 and 7 days out.',
+    features: ['Certificate expiry tracker', 'Automated renewal alerts', 'HMO licence tracking', 'Gas + EICR management', 'Document vault', 'Audit trail'],
+    integrations: ['Google Drive', 'Slack', 'Gmail'],
+    price: '£49', badge: '', variant: 'variant-2'
+  },
+  {
+    id: 'launch', category: 'launch', categoryLabel: 'Launch', icon: '🚀',
+    title: 'OD Launch Plan OS',
+    desc: 'Business launch roadmap with milestones and owners.',
+    tagline: 'The blueprint for launching a new business unit. Every milestone mapped, every owner assigned, every dependency tracked.',
+    features: ['Launch milestone tracker', 'Owner assignment', 'Dependency mapping', 'Go/no-go criteria', 'Weekly status', 'Risk register'],
+    integrations: ['Airtable', 'Slack', 'Google Workspace'],
+    price: '£49', badge: 'Blue', variant: 'variant-5'
+  }
+];
+
+function badgeClass(label) {
+  if (!label) return '';
+  if (label === 'Gold') return ' gold';
+  if (label === 'Blue') return ' blue';
+  return '';
+}
+
+function renderModules(filter = 'all') {
+  const grid = document.getElementById('moduleGrid');
+  const filtered = filter === 'all' ? modules : modules.filter(m => m.category === filter);
+  grid.innerHTML = filtered.map(m => `
+    <button class="module-card ${m.variant}" onclick="openModule('${m.id}')">
+      <div class="module-preview">
+        <div class="module-icon">${m.icon}</div>
+      </div>
+      <div class="module-body">
+        <div class="module-cat">${m.categoryLabel}</div>
+        <h3>${m.title}</h3>
+        <p class="module-desc">${m.desc}</p>
+        <div class="module-footer">
+          <div class="module-price">${m.price}<span>/mo</span></div>
+          ${m.badge ? `<div class="module-badge${badgeClass(m.badge)}">${m.badge === 'Gold' || m.badge === 'Blue' ? (m.badge === 'Gold' ? 'Premium' : 'Featured') : m.badge}</div>` : ''}
+        </div>
+      </div>
+    </button>
+  `).join('');
+  document.getElementById('moduleCount').textContent = filtered.length + ' module' + (filtered.length === 1 ? '' : 's');
+  document.getElementById('marketplaceTitle').textContent = filter === 'all' ? 'All modules' : modules.find(m => m.category === filter).categoryLabel + ' modules';
+}
+
+function openModule(id) {
+  const m = modules.find(x => x.id === id);
+  if (!m) return;
+  document.getElementById('modalIcon').textContent = m.icon;
+  document.getElementById('modalCat').textContent = m.categoryLabel;
+  document.getElementById('modalTitle').textContent = m.title;
+  document.getElementById('modalTagline').textContent = m.tagline;
+  document.getElementById('modalPrice').textContent = m.price;
+  document.getElementById('modalFeatures').innerHTML = m.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('modalIntegrations').innerHTML = m.integrations.map(i => `<li>${i}</li>`).join('');
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+function closeModalBg(e) { if (e.target.id === 'modalOverlay') closeModal(); }
+
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.querySelector('.nav-links button[data-page="' + pageId + '"]');
+  if (activeBtn) activeBtn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  document.getElementById('navLinks').classList.remove('mobile-open');
+}
+
+function scrollToId(id) {
+  if (document.getElementById('page-home').classList.contains('active')) {
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  } else {
+    showPage('home');
+    setTimeout(() => document.getElementById(id).scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+}
+
+function toggleFaq(el) { el.classList.toggle('open'); }
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('mobile-open'); }
+
+document.querySelectorAll('.cat-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderModules(chip.dataset.cat);
+    document.getElementById('marketplace').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+renderModules();
+</script>
+
+</body>
+</html>
